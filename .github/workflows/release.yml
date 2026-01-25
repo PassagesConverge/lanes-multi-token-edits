@@ -45,6 +45,37 @@ jobs:
           -x "*.git*" "release/*"
         cp module.json release/
     
+    - name: Generate Release Notes
+      id: release_notes
+      run: |
+        # Get the previous tag
+        PREVIOUS_TAG=$(git describe --tags --abbrev=0 HEAD^ 2>/dev/null || echo "")
+        
+        if [ -z "$PREVIOUS_TAG" ]; then
+          # First release, get all commits
+          COMMITS=$(git log --pretty=format:"- %s" --no-merges)
+        else
+          # Get commits since previous tag
+          COMMITS=$(git log ${PREVIOUS_TAG}..HEAD --pretty=format:"- %s" --no-merges)
+        fi
+        
+        # Create release notes
+        cat << EOF > release_notes.md
+        ## Release ${{ github.ref_name }}
+        
+        **Installation:**
+        Use this manifest URL in Foundry VTT:
+        \`\`\`
+        https://github.com/${{ github.repository }}/releases/latest/download/module.json
+        \`\`\`
+        
+        **Changes:**
+        ${COMMITS}
+        EOF
+        
+        # Save for next step
+        echo "NOTES_FILE=release_notes.md" >> $GITHUB_OUTPUT
+    
     - name: Create GitHub Release
       id: create_release
       uses: actions/create-release@v1
@@ -55,17 +86,7 @@ jobs:
         release_name: Release ${{ github.ref_name }}
         draft: false
         prerelease: false
-        body: |
-          ## Release ${{ github.ref_name }}
-          
-          **Installation:**
-          Use this manifest URL in Foundry VTT:
-          ```
-          https://github.com/${{ github.repository }}/releases/latest/download/module.json
-          ```
-          
-          **Changes:**
-          - See commit history for details
+        body_path: release_notes.md
     
     - name: Upload module.json
       uses: actions/upload-release-asset@v1
