@@ -5,8 +5,16 @@ A template/scaffold for creating Foundry VTT modules. Copy this structure to sta
 ## How to Use This Scaffold
 
 1. **Copy the scaffold**
+   
+   **Windows (PowerShell):**
    ```powershell
    Copy-Item -Path "foundry-module-scaffold" -Destination "your-new-module-name" -Recurse
+   cd your-new-module-name
+   ```
+   
+   **Mac/Linux (bash):**
+   ```bash
+   cp -r foundry-module-scaffold your-new-module-name
    cd your-new-module-name
    ```
 
@@ -35,7 +43,8 @@ your-module/
 ├── module.json          # Module manifest (REQUIRED)
 ├── README.md            # Documentation
 ├── LICENSE              # License file
-├── package-release.ps1  # Packaging script
+├── package-release.ps1  # Packaging script (Windows)
+├── package-release.sh   # Packaging script (Mac/Linux)
 ├── scripts/
 │   ├── main.js          # Main entry point with hooks
 │   ├── shared.js        # Shared utilities and MODULE_ID
@@ -52,9 +61,18 @@ your-module/
 1. **Make your changes** in the module files
 2. **Test locally** by enabling the module in Foundry VTT
 3. **Package for release**:
+   
+   **Windows (PowerShell):**
    ```powershell
    powershell -ExecutionPolicy Bypass -File package-release.ps1
    ```
+   
+   **Mac/Linux (bash):**
+   ```bash
+   chmod +x package-release.sh  # Only needed once
+   ./package-release.sh
+   ```
+   
 4. **Create GitHub release** and upload files from `release/` directory
 5. **Share** the manifest URL with users
 
