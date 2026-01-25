@@ -1,0 +1,9 @@
+# Foundry VTT Module Scaffold
+
+node_modules/
+release/
+*.zip
+.DS_Store
+Thumbs.db
+*.log
+.vscode/
