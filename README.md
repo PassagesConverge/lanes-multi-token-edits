@@ -40,6 +40,9 @@ A template/scaffold for creating Foundry VTT modules. Copy this structure to sta
 
 ```
 your-module/
+├── .github/
+│   └── workflows/
+│       └── release.yml   # Automated release workflow
 ├── module.json          # Module manifest (REQUIRED)
 ├── README.md            # Documentation
 ├── LICENSE              # License file
@@ -58,6 +61,33 @@ your-module/
 
 ## Development Workflow
 
+### Option 1: Automated Releases (Recommended)
+
+This scaffold includes a GitHub Actions workflow that automatically packages and releases your module.
+
+1. **Make your changes** in the module files
+2. **Update version** in `module.json` (e.g., `"version": "1.0.1"`)
+3. **Commit and push** your changes:
+   ```bash
+   git add .
+   git commit -m "Your changes description"
+   git push
+   ```
+4. **Create and push a version tag**:
+   ```bash
+   git tag v1.0.1
+   git push origin v1.0.1
+   ```
+5. **Done!** GitHub Actions will automatically:
+   - Verify the version matches your tag
+   - Package the module
+   - Create a GitHub release
+   - Upload the files
+
+### Option 2: Manual Packaging
+
+If you prefer manual control or need to test locally:
+
 1. **Make your changes** in the module files
 2. **Test locally** by enabling the module in Foundry VTT
 3. **Package for release**:
@@ -73,8 +103,14 @@ your-module/
    ./package-release.sh
    ```
    
-4. **Create GitHub release** and upload files from `release/` directory
+4. **Create GitHub release** manually and upload files from `release/` directory
 5. **Share** the manifest URL with users
+
+## Important Notes
+
+- **Version Tag Format**: Always use `v` prefix (e.g., `v1.0.0`, not `1.0.0`)
+- **Version Matching**: The version in `module.json` must match the git tag (without the `v`)
+- **Semantic Versioning**: Follow Major.Minor.Patch format (e.g., 1.0.0, 1.1.0, 2.0.0)
 
 ## Key Files
 
