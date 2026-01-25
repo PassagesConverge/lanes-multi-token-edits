@@ -1,5 +1,5 @@
 // MODULE IDENTIFIER - Replace with your module's ID (must match module.json)
-export const MODULE_ID = "your-module-id";
+export const MODULE_ID = "lanes-multi-token-edits";
 
 /**
  * Helper logging function that prints debug messages if logging is enabled.

@@ -1,11 +1,11 @@
 {
-  "id": "your-module-id",
-  "title": "Your Module Title",
-  "description": "A brief description of what your module does.",
+  "id": "lanes-multi-token-edits",
+  "title": "Lane's Multi-Token Edits",
+  "description": "Automatically sync status effects across all selected tokens. When you toggle a status effect on one token, it applies to all currently selected tokens.",
   "version": "0.1.0",
   "authors": [
     {
-      "name": "Your Name",
+      "name": "imalane",
       "discord": "",
       "flags": {}
     }
@@ -21,14 +21,15 @@
   "esmodules": [
     "scripts/main.js",
     "scripts/shared.js",
-    "scripts/settings.js"
+    "scripts/settings.js",
+    "scripts/multi-token-effects.js"
   ],
   "styles": [
     "styles/styles.css"
   ],
   "license": "MIT",
-  "url": "https://github.com/yourusername/your-module-id",
-  "readme": "https://github.com/yourusername/your-module-id/blob/main/README.md",
-  "manifest": "https://github.com/yourusername/your-module-id/releases/latest/download/module.json",
-  "download": "https://github.com/yourusername/your-module-id/releases/latest/download/your-module-id.zip"
+  "url": "https://github.com/PassagesConverge/lanes-multi-token-edits",
+  "readme": "https://github.com/PassagesConverge/lanes-multi-token-edits/blob/main/README.md",
+  "manifest": "https://github.com/PassagesConverge/lanes-multi-token-edits/releases/latest/download/module.json",
+  "download": "https://github.com/PassagesConverge/lanes-multi-token-edits/releases/latest/download/lanes-multi-token-edits.zip"
 }
