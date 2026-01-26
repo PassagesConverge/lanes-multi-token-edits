@@ -127,7 +127,7 @@ try {
     Write-Info "--- Next Steps ---"
     Write-Info "1. Commit and push your changes to GitHub"
     Write-Info "2. Create a new release at: https://github.com/yourusername/$moduleName/releases/new"
-    Write-Info "3. Tag the release as: v$moduleVersion"
+    Write-Info "3. Tag the release as: $moduleVersion"
     Write-Info "4. Upload both files from the 'release' directory:"
     Write-Info "   - module.json"
     Write-Info "   - $moduleName.zip"
