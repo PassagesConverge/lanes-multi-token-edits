@@ -26,6 +26,30 @@ let lastHUDToken = null;
 let isApplyingGroupUpdate = false;
 
 /**
+ * Resolve which token initiated the HP update.
+ */
+function resolveUpdatingToken(actor, selectedTokens) {
+    if (lastHUDToken && selectedTokens.some(t => t.id === lastHUDToken.id)) {
+        const lastHUDActor = lastHUDToken.actor;
+        if (lastHUDActor === actor || lastHUDActor?.uuid === actor.uuid || lastHUDActor?.id === actor.id) {
+            return lastHUDToken;
+        }
+    }
+
+    if (actor.isToken) {
+        const actorToken = actor.token?.object;
+        if (actorToken && selectedTokens.some(t => t.id === actorToken.id)) {
+            return actorToken;
+        }
+    }
+
+    return selectedTokens.find(t => {
+        const tokenActor = t.actor;
+        return tokenActor === actor || tokenActor?.uuid === actor.uuid || tokenActor?.id === actor.id;
+    });
+}
+
+/**
  * Track which token's HUD is being displayed
  */
 function onRenderTokenHUD(hud, html, data) {
@@ -58,7 +82,7 @@ function interceptHPUpdate(actor, updateData, options, userId) {
     if (newHP === undefined) return true;
     
     // Check if multiple tokens are selected
-    const selectedTokens = canvas.tokens.controlled;
+    const selectedTokens = canvas.tokens.controlled ?? [];
     console.log(`[${MODULE_ID}] Selected tokens:`, selectedTokens.length);
     
     if (selectedTokens.length <= 1) {
@@ -66,7 +90,7 @@ function interceptHPUpdate(actor, updateData, options, userId) {
     }
     
     // Check if one of the selected tokens is being updated
-    const updatingToken = selectedTokens.find(t => t.actor?.id === actor.id);
+    const updatingToken = resolveUpdatingToken(actor, selectedTokens);
     if (!updatingToken) {
         return true; // Not updating a selected token
     }
@@ -88,7 +112,7 @@ function interceptHPUpdate(actor, updateData, options, userId) {
             const updates = [];
             
             for (const token of selectedTokens) {
-                if (!token.actor || token.actor.id === actor.id) continue; // Skip the original
+                if (!token.actor || token.id === updatingToken.id) continue; // Skip only the original token instance
                 
                 try {
                     // Get current HP
