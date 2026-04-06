@@ -10,6 +10,41 @@ import { log } from "./shared.js";
 const MODULE_ID = "lanes-multi-token-edits";
 let isSyncing = false; // Flag to prevent cascading hook calls
 
+function resolveSourceToken(actor) {
+    if (!actor) return null;
+
+    if (actor.isToken) {
+        const tokenObject = actor.token?.object;
+        if (tokenObject) return tokenObject;
+
+        const activeToken = actor.getActiveTokens?.(true)?.[0] ?? actor.getActiveTokens?.()[0];
+        if (activeToken) return activeToken;
+    }
+
+    return canvas.tokens.controlled.find(t => t.actor?.id === actor.id) ?? null;
+}
+
+function getEffectStatusId(effect) {
+    const statuses = effect?.statuses;
+    if (!statuses) return null;
+
+    if (typeof statuses.first === "function") {
+        return statuses.first() ?? null;
+    }
+
+    if (Array.isArray(statuses)) {
+        return statuses[0] ?? null;
+    }
+
+    if (typeof statuses[Symbol.iterator] === "function") {
+        for (const id of statuses) {
+            return id;
+        }
+    }
+
+    return null;
+}
+
 /**
  * Initialize multi-token effect synchronization
  */
@@ -46,13 +81,11 @@ async function onEffectCreate(effect, options, userId) {
         
         // For linked actors, find which controlled token has this actor
         // For unlinked/synthetic actors, use actor.token.object
-        const token = actor.isToken 
-            ? actor.token?.object 
-            : canvas.tokens.controlled.find(t => t.actor?.id === actor.id);
+        const token = resolveSourceToken(actor);
         if (!token) return;
         
         // Get the status ID from the effect
-        const statusId = effect.statuses?.first();
+        const statusId = getEffectStatusId(effect);
         if (!statusId) {
             return;
         }
@@ -123,13 +156,11 @@ async function onEffectDelete(effect, options, userId) {
         
         // For linked actors, find which controlled token has this actor
         // For unlinked/synthetic actors, use actor.token.object
-        const token = actor.isToken 
-            ? actor.token?.object 
-            : canvas.tokens.controlled.find(t => t.actor?.id === actor.id);
+        const token = resolveSourceToken(actor);
         if (!token) return;
         
         // Get the status ID from the effect
-        const statusId = effect.statuses?.first();
+        const statusId = getEffectStatusId(effect);
         if (!statusId) {
             return;
         }

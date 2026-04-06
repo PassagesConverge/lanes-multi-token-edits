@@ -51,8 +51,8 @@ echo ""
 
 # Validate URLs
 info "Validating URLs..."
-EXPECTED_MANIFEST="https://github.com/yourusername/$MODULE_ID/releases/latest/download/module.json"
-EXPECTED_DOWNLOAD="https://github.com/yourusername/$MODULE_ID/releases/latest/download/$MODULE_ID.zip"
+EXPECTED_MANIFEST="https://github.com/imalane/$MODULE_ID/releases/latest/download/module.json"
+EXPECTED_DOWNLOAD="https://github.com/imalane/$MODULE_ID/releases/latest/download/$MODULE_ID.zip"
 
 CURRENT_MANIFEST=$(grep -o '"manifest"[[:space:]]*:[[:space:]]*"[^"]*"' "$MODULE_JSON" | sed 's/.*"manifest"[[:space:]]*:[[:space:]]*"\([^"]*\)".*/\1/')
 CURRENT_DOWNLOAD=$(grep -o '"download"[[:space:]]*:[[:space:]]*"[^"]*"' "$MODULE_JSON" | sed 's/.*"download"[[:space:]]*:[[:space:]]*"\([^"]*\)".*/\1/')
@@ -120,7 +120,7 @@ echo ""
 # Next steps
 info "--- Next Steps ---"
 info "1. Commit and push your changes to GitHub"
-info "2. Create a new release at: https://github.com/yourusername/$MODULE_ID/releases/new"
+info "2. Create a new release at: https://github.com/imalane/$MODULE_ID/releases/new"
 info "3. Tag the release as: v$MODULE_VERSION"
 info "4. Upload both files from the 'release' directory:"
 info "   - module.json"
