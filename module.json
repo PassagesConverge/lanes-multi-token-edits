@@ -2,7 +2,7 @@
   "id": "lanes-multi-token-edits",
   "title": "Lane's Multi-Token Edits",
   "description": "Automatically sync status effects and HP changes across all selected tokens. When you toggle a status effect or edit HP on one token, it applies to all currently selected tokens.",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "authors": [
     {
       "name": "imalane",
